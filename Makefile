@@ -11,9 +11,10 @@
 # **************************************************************************** #
 NAME 		= philo
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS 		= -Wall -Wextra -Werror
+INCLUDE		= -I inc
 
-SRC = src/utils.c src/main.c src/args.c
+SRC = src/utils.c src/main.c src/arguments.c
 			  
 OBJ	= $(SRC:.c=.o)
 
