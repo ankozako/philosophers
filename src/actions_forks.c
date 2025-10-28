@@ -36,3 +36,8 @@ void	take_forks(t_philo *philo)
 }
 
 void	drop_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+}
+
