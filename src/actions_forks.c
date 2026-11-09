@@ -29,10 +29,10 @@ static void	take_forks_even(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 1)
-		take_forks_even(t_philo *philo);
+	if (philo->id % 2 == 0)
+		take_forks_even(philo);
 	else
-		void	take_forks_odd(t_philo *philo);
+		take_forks_odd(philo);
 }
 
 void	drop_forks(t_philo *philo)
@@ -40,4 +40,3 @@ void	drop_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
-

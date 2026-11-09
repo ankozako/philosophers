@@ -1,43 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ankozako <ankozako@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/29 08:59:58 by ankozako          #+#    #+#             */
+/*   Updated: 2025/10/29 09:00:00 by ankozako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
-static void  destroy_fork_mutexes(t_data *data)
+void	cleanup(t_data *data)
 {
-  int  i;
+	int	i;
 
-  i = 0;
-  while (i < data->n_philos)
-    {
-      pthread_mutex_destroy(&data->forks[i]);
-      i++;
-    }
-}
-
-static void  destroy_control_mutexes(t_data *data)
-{
-  pthread_mutex_destroy(&data->print_mutex);
-  pthread_mutex_destroy(&data->stop_mutex);
-}
-
-void  join_threads(t_data *data)
-{
-  int  i;
-
-  i = 0;
-  while (i < data->n_philos)
-    {
-      pthread_join(data->philos[i].thread, NULL);
-      i++;
-    }
-}
-
-void  cleanup(t_data *data)
-{
-  if (data->forks)
-  {
-    destroy_fork_mutexes(data);
-    free(data->forks);
-  }
-  destroy_control_mutexes(data);
-  if (data->philos)
-    free(data->philos);
+	if (data->forks)
+	{
+		i = 0;
+		while (i < data->n_philos)
+		{
+			pthread_mutex_destroy(&data->forks[i]);
+			pthread_mutex_destroy(&data->meal_mutexes[i]);
+			i++;
+		}
+		free(data->forks);
+		free(data->meal_mutexes);
+	}
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->stop_mutex);
+	if (data->philos)
+		free(data->philos);
 }

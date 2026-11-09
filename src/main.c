@@ -11,13 +11,47 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+static int	setup_simulation(t_data *data, int ac, char **av)
+{
+	memset(data, 0, sizeof(*data));
+	set_table(data, ac, av);
+	return (0);
+}
+
+static int	start_simulation(t_data *data)
+{
+	if (init_data(data))
+		return (1);
+	if (start_sim(data))
+		return (1);
+	return (0);
+}
+
+static void	monitor_simulation(t_data *data)
+{
+	while (!sim_stopped(data))
+	{
+		if (check_death(data) || check_if_all_eaten(data))
+		{
+			stop_sim(data);
+			break ;
+		}
+		usleep(500);
+	}
+}
+
 int	main(int ac, char **av)
 {
-	t_data	d;
+	t_data	data;
 
-	memset(&d, 0, sizeof(d));
-	set_table(&d, ac, av);
-	printf("n = %d die=%lld eat=%lld sleep=%lld meals_total=%d\n",
-		d.n_philos, d.time_to_die, d.time_to_eat, d.time_to_sleep, d.meals_total);
+	setup_simulation(&data, ac, av);
+	if (start_simulation(&data))
+	{
+		cleanup(&data);
+		return (1);
+	}
+	monitor_simulation(&data);
+	join_threads(&data);
+	cleanup(&data);
 	return (0);
 }

@@ -14,7 +14,9 @@ CC 			= cc
 CFLAGS 		= -Wall -Wextra -Werror
 INCLUDE		= -I inc
 
-SRC = src/utils.c src/main.c src/arguments.c
+SRC = 	src/actions_forks.c src/actions.c src/arguments.c src/cleanup.c \
+		src/init.c src/main.c src/memory.c src/mutex.c src/sim.c \
+		src/threads.c src/utils.c src/meal_mutex.c
 			  
 OBJ	= $(SRC:.c=.o)
 
@@ -24,9 +26,6 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
-$(LIBFT_A):
-	$(MAKE) -C $(LIBFT_PATH)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@

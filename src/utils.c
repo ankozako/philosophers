@@ -13,30 +13,30 @@
 
 int	ft_atoi(char *s)
 {
-	int	i;
-	int	sign;
-	int	res;
+	int			i;
+	long long	res;
 
 	i = 0;
 	res = 0;
-	sign = 1;
 	while (s[i] == ' ' || (s[i] >= 9 && s[i] <= 13))
 		i++;
 	if (s[i] == '-' || s[i] == '+')
 	{
 		if (s[i] == '-')
-			sign = -1;
+			return (-1);
 		i++;
 	}
 	while (s[i] >= '0' && s[i] <= '9')
 	{
 		res = (res * 10) + (s[i] - '0');
+		if (res > INT_MAX)
+			return (-1);
 		i++;
 	}
-	return (res * sign);
+	return ((int)res);
 }
 
-int	ft_strlen(char *s)
+static int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -60,11 +60,15 @@ long long	get_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	prec_sleep(long long ms)
+void	prec_sleep(long long ms, t_data *data)
 {
 	long long	start;
 
 	start = get_time();
 	while (get_time() - start < ms)
+	{
+		if (sim_stopped(data))
+			return ;
 		usleep(100);
+	}
 }

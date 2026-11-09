@@ -11,24 +11,15 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-static void	set_philo_data(t_philo *philo, int id, t_data *data)
-{
-	philo->id = id;
-	philo->meals_eaten = 0;
-	philo->last_meal = 0;
-	philo->data = data;
-}
-
-static void set_philo_forks(t_philo *philo, t_data *data, int i)
-{
-	philo->left_fork = &data->forks[i];
-	philo->right_fork = &data->forks[(i + 1) % data->n_philos];
-}
-
 static void	init_single_philo(t_data *data, int i)
 {
-	set_philo_data(&data->philos[i], i + 1, data);
-	set_philo_forks(&data->philos[i], data, i);
+	data->philos[i].id = i + 1;
+	data->philos[i].meals_eaten = 0;
+	data->philos[i].last_meal = 0;
+	data->philos[i].data = data;
+	data->philos[i].left_fork = &data->forks[i];
+	data->philos[i].right_fork = &data->forks[(i + 1) % data->n_philos];
+	data->philos[i].meal_mutex = &data->meal_mutexes[i];
 }
 
 static void	init_all_philos(t_data *data)
